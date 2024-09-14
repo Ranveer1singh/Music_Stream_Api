@@ -6,10 +6,12 @@ var morgan = require("morgan")
 // mongo db connection 
 const db = require('./config/db');
 const authRoute = require("./routes/auth.route")
+const userRoute = require("./routes/user.route")
 const {userModel} = require('./models/user.model')
 // passport set up
 const passport = require("passport")
 const ExpressSession = require("express-session");
+const errorHandler = require('./utils/errorHandling');
 
 // connect to data base
 db.connect();
@@ -18,6 +20,7 @@ db.connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'))
+app.use(errorHandler)
 // passport js for authentication 
 app.use(ExpressSession({
     resave:false,
@@ -30,7 +33,8 @@ app.use(passport.session());
 passport.serializeUser(userModel.serializeUser())
 passport.deserializeUser(userModel.deserializeUser())
 
-app.use("/api/auth", authRoute)
+app.use("/api/", authRoute)
+app.use("/api/user", userRoute)
 // create server for run application 
 const Port = process.env.Port  || 3000;
 const server = http.createServer(app);

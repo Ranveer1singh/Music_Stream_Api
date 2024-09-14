@@ -4,12 +4,19 @@ const userSchema = mongoose.Schema({
     username : {
         type : String,
         required : [true, "User name is Required"],
-        trim: true
+        trim: true,
+        unique: true 
     },
     email : {
         type:String,
         required : [true, "Email Is Required"],
         trim:true,
+        validate: {
+            validator: function(v) {
+              return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid email address!`
+          }
     },
     playList  : [{
         type : mongoose.Schema.Types.ObjectId,
