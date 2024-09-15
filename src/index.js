@@ -7,6 +7,7 @@ var morgan = require("morgan")
 const db = require('./config/db');
 const authRoute = require("./routes/auth.route")
 const userRoute = require("./routes/user.route")
+const adminRoute = require("./routes/admin.route")
 const {userModel} = require('./models/user.model')
 // passport set up
 const passport = require("passport")
@@ -35,6 +36,7 @@ passport.deserializeUser(userModel.deserializeUser())
 
 app.use("/api/", authRoute)
 app.use("/api/user", userRoute)
+app.use("/api/admin", adminRoute)
 // create server for run application 
 const Port = process.env.Port  || 3000;
 const server = http.createServer(app);

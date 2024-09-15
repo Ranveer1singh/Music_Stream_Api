@@ -1,9 +1,9 @@
 const { userModel } = require("../models/user.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
+const errorHandler = require("../utils/errorHandling");
 // passport js setup
 const passport = require("passport");
-const errorHandler = require("../utils/errorHandling");
 var localStrategy = require("passport-local").Strategy;
 passport.use(new localStrategy(userModel.authenticate()));
 

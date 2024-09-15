@@ -41,7 +41,7 @@ const songSchema = mongoose.Schema({
     }
 })
 
-const Song = mongoose.model("Song", songSchema);
+const songModel = mongoose.model("Song", songSchema);
 module.exports = {
-    songSchema
+    songModel
 }
