@@ -2,7 +2,7 @@ const { userModel } = require("../models/user.model");
 const { songModel } = require("../models/song.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
-
+const {getGridFSBucket} = require("../config/gridFs")
 exports.home = async(req, res)=> {
     try {
         const User = await userModel.findOne({username:req.session.passport.user})
@@ -63,3 +63,48 @@ exports.allSongs = async (req, res) => {
 // GET /user/songs?search=Ramuloo
 
 // username:req.session.passport.user
+
+
+
+exports.playSong = async (req, res) => {
+    try {
+        const songId = req.params.id;
+
+        // Find the song in the database
+        const song = await songModel.findById(songId);
+        if (!song) {
+            return res.status(404).json(new apiError(404, "Song not found"));
+        }
+
+        // Get the GridFS bucket
+        const gfsBucket = await getGridFSBucket('audio');
+
+        // Find the file in GridFS
+        const files = await gfsBucket.find({ filename: song.fileName }).toArray();
+        if (files.length === 0) {
+            return res.status(404).json(new apiError(404, "Audio file not found"));
+        }
+
+        const file = files[0];
+
+        // Set the proper headers for audio streaming
+        res.set('Content-Type', 'audio/mpeg');
+        res.set('Content-Length', file.length);
+        res.set('Accept-Ranges', 'bytes');
+
+        // Create a read stream and pipe it to the response
+        const readStream = gfsBucket.openDownloadStreamByName(song.fileName);
+        
+        // Add error handling for the stream
+        readStream.on('error', (streamErr) => {
+            console.error("Error in streaming the file:", streamErr);
+            res.status(500).json(new apiError(500, "Error streaming the audio file"));
+        });
+
+        readStream.pipe(res);
+
+    } catch (error) {
+        console.error("Error in playSong:", error);
+        res.status(500).json(new apiError(500, "An error occurred while streaming the song"));
+    }
+};
