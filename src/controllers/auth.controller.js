@@ -9,13 +9,13 @@ passport.use(new localStrategy(userModel.authenticate()));
 
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { username, email,isAdmin } = req.body;
     const user = await userModel.findOne({ username });
     if (user) {
       return res.status(400).json(new apiError(400, "User Already Exist"));
     }
     const registerUser = await userModel.register(
-      new userModel({ username, email }),
+      new userModel({ username, email, isAdmin }),
       req.body.password
     );
 
