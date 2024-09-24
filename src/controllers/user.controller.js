@@ -2,7 +2,10 @@ const { userModel } = require("../models/user.model");
 const { songModel } = require("../models/song.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
-const {getGridFSBucket} = require("../config/gridFs")
+const {getGridFSBucket} = require("../config/gridFs");
+const { playList } = require("../models/playList.model");
+
+
 exports.home = async(req, res)=> {
     try {
         const User = await userModel.findOne({username:req.session.passport.user})
@@ -108,3 +111,31 @@ exports.playSong = async (req, res) => {
         res.status(500).json(new apiError(500, "An error occurred while streaming the song"));
     }
 };
+
+
+exports.addPlayList = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        
+        if(!userId){
+            return res.status(404).json(new apiError(404, "User Id Not Found"))
+        }
+
+        const {name} = req.body;
+
+        if(!name){
+            return res.status(400).json(new apiError(400, "Playlist name is requiured"))
+        }
+
+        const newPlayList = new playList({
+            name,
+            user:userId
+        })
+
+        await newPlayList.save();
+        
+        res.status(201).json(new apiResponse(201, newPlayList, "Playlist created successfully"));
+    } catch (error) {
+        return res.status(500).json(new apiError(500,{},`Error In Add playlist ${error.message}`))
+    }
+}

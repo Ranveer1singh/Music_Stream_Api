@@ -18,14 +18,14 @@ const userSchema = mongoose.Schema({
             message: props => `${props.value} is not a valid email address!`
           }
     },
-    playList  : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "PlayList"
-    }],
+    // playList  : [{
+    //     type : mongoose.Schema.Types.ObjectId,
+    //     ref: "PlayList"
+    // }],
     liked:[
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref:"song"
+            ref:"Song"
         }
     ],
 
