@@ -4,6 +4,7 @@ const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const {getGridFSBucket} = require("../config/gridFs");
 const { playList } = require("../models/playList.model");
+const { update } = require("node-id3");
 
 
 exports.home = async(req, res)=> {
@@ -137,5 +138,43 @@ exports.addPlayList = async (req, res) => {
         res.status(201).json(new apiResponse(201, newPlayList, "Playlist created successfully"));
     } catch (error) {
         return res.status(500).json(new apiError(500,{},`Error In Add playlist ${error.message}`))
+    }
+}
+
+exports.editPlayList = async (req, res) =>{
+    try {
+        const playListId = req.params.id;
+        if(!playListId){
+            return res.status(404).json(new apiError(404,"playlist id not found"))
+        }
+
+        const {name} = req.body;
+
+        const updatedPlayList = await playList.findByIdAndUpdate(
+            playListId,
+            {name},
+            {new:true});
+            
+        return res.status(200).
+        json(new apiResponse(200,updatedPlayList,"playlist updated "))
+    } catch (error) {
+        return res.status(500).
+        json(new apiError(500, error.message))
+    }
+}
+
+exports.getAllPlayList = async(req, res)=>{
+    try {
+        const userId = req.user._id;
+        if(!userId){
+            return res.status(404).
+            json(new apiError(404,"userId Not Found"))
+        }
+        const allPlayList = await playList.find({user:userId});
+        return res.status(200).
+        json(new apiResponse(200,allPlayList, "playlist fetched successfully"))
+    } catch (error) {
+        return res.status(500).
+        json(new apiError(500, error.message))
     }
 }
