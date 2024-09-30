@@ -170,7 +170,7 @@ exports.getAllPlayList = async(req, res)=>{
             return res.status(404).
             json(new apiError(404,"userId Not Found"))
         }
-        const allPlayList = await playList.find({user:userId});
+        const allPlayList = await playList.find({user:userId}).populate("songs");
         if(allPlayList.length<=0){
             return res.status(404).
             json(new apiResponse(404,allPlayList, "play list not found"))
@@ -219,13 +219,44 @@ exports.addSongToPlayList = async(req, res)=>{
             return res.status(400).json(new apiError(400, "song is already in Playlist"))
         }
         PlayList.songs.push(songId);
-        await PlayList.save;
+        await PlayList.save();
         return res.status(200).
         json(
             new apiResponse (
                 200,
                 PlayList,
                 "song added to playlist"
+            )
+        )
+    } catch (error) {
+        return res.status(500).json(new apiError(500, error.message))
+        
+    }
+}
+exports.removeSongToPlayList = async(req, res)=>{
+    try {
+        const {id}= req.params;
+        const {songId} = req.body;
+
+        if(!songId){
+                return res.status(400).json(new apiError(400, "Song ID is required"));
+        }
+        const PlayList = await playList.findById(id);
+
+        if(!PlayList){
+            return res.status(400).json(new apiError(400,"Playlist is not found"))
+        }
+
+        if(!PlayList.songs.includes(songId)){
+            return res.status(400).json(new apiError(400, "song is not in Playlist"))
+        }
+        PlayList.songs.pull(songId);
+        await PlayList.save();
+        return res.status(200).
+        json(
+            new apiResponse (
+                200,
+                "song removed to playlist"
             )
         )
     } catch (error) {
