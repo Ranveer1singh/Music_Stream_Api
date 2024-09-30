@@ -15,7 +15,7 @@ const ExpressSession = require("express-session");
 const errorHandler = require('./utils/errorHandling');
 
 // connect to data base
-db.connect();
+db.connect(process.env.MONGO_URL);
 
 // middleWares
 app.use(express.json());

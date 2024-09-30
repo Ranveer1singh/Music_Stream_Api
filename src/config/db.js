@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const connect = () => {
-  mongoose.connect("mongodb://127.0.0.1:27017/music_app");
+const connect = (URL) => {
+  mongoose.connect(URL);
 
   const db = mongoose.connection;
   db.on(
