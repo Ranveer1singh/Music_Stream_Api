@@ -1,5 +1,5 @@
 const { userModel } = require("../models/user.model");
-const { songModel } = require("../models/song.model");
+const { songModel } = require("../models/song.model.js");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const {getGridFSBucket} = require("../config/gridFs");
