@@ -64,7 +64,7 @@ exports.uploadSongs = async (req, res) => {
       .status(201)
       .json(new apiResponse(201, {}, "Songs uploaded successfully"));
   } catch (error) {
-    console.error("Error in uploadSongs:", error);
+    console.error("Error in uploadSongs:", error.message);
     return res
       .status(500)
       .json(
