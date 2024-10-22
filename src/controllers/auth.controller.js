@@ -58,20 +58,25 @@ exports.login = (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
+    
     if (req.isAuthenticated()) {
       await new Promise((resolve, reject) => {
         req.logout((err) => {
-          if (err) reject(err);
-          else resolve();
+          if (err) {
+            return reject(err); // Reject with an error if logout fails
+          }
+          resolve(); // Resolve if no error
         });
       });
-      return res.status(400).json(new apiError(400, err.message));
+
+      // Send a successful logout response if no errors
+      return res.status(200).json(new apiResponse(200, {}, "User Logout Successfully"));
     } else {
-      return res
-        .status(200)
-        .json(new apiResponse(200,{}, "User Logout Successfully"));
+      return res.status(400).json(new apiError(400, "User is not authenticated"));
     }
   } catch (error) {
+    // If there's an error, catch it here and send a 500 status with the error message
     return res.status(500).json(new apiError(500, error.message));
   }
 };
+

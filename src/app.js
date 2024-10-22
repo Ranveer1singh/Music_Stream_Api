@@ -24,7 +24,7 @@ db.connect(process.env.MONGO_URL);
 credentials: true, // If you're using cookies/sessions
 methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-exposedHeaders: ['set-cookie'],
+// exposedHeaders: ['set-cookie'],
 //   optionsSuccessStatus: 204
 }
 app.use(cors(corsOptions))
