@@ -29,13 +29,13 @@ allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }
 app.use(cors(corsOptions))
 // app.use(cors())
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`, {
-        headers: req.headers,
-        body: req.body,
-    });
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log(`${req.method} ${req.url}`, {
+//         headers: req.headers,
+//         body: req.body,
+//     });
+//     next();
+// });
 // app.options('*', cors(corsOptions));
 
 
