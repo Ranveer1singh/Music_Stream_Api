@@ -1,7 +1,7 @@
-const { UserModel } = require("../models/User.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const errorHandler = require("../utils/errorHandling");
+const { UserModel } = require("../models/User.model");
 // passport js setup
 const passport = require("passport");
 var localStrategy = require("passport-local").Strategy;

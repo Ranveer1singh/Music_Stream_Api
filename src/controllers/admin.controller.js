@@ -1,4 +1,4 @@
-const { userModel } = require("../models/User.model");
+// const { UserModel } = require("../models/User.model");
 const { songModel } = require("../models/Song.model");
 const { getGridFSBucket } = require("../config/gridFs");
 const { Readable } = require("stream");
