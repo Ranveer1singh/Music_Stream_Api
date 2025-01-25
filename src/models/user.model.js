@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
 })
 userSchema.plugin(plm);
 
-const userModel = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
 module.exports = {
-    userModel
+    UserModel
 }

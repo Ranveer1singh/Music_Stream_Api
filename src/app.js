@@ -9,7 +9,7 @@ const db = require('./config/db');
 const authRoute = require("./routes/auth.route")
 const userRoute = require("./routes/user.route")
 const adminRoute = require("./routes/admin.route")
-const {userModel} = require('./models/User.model')
+const {UserModel} = require('./models/User.model')
 // passport set up
 const passport = require("passport")
 const ExpressSession = require("express-session");
@@ -62,8 +62,8 @@ app.use(ExpressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(userModel.serializeUser())
-passport.deserializeUser(userModel.deserializeUser())
+passport.serializeUser(UserModel.serializeUser())
+passport.deserializeUser(UserModel.deserializeUser())
 
 app.use("/api/", authRoute)
 app.use("/api/user", userRoute)

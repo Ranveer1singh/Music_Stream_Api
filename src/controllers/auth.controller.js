@@ -1,21 +1,21 @@
-const { userModel } = require("../models/User.model");
+const { UserModel } = require("../models/User.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const errorHandler = require("../utils/errorHandling");
 // passport js setup
 const passport = require("passport");
 var localStrategy = require("passport-local").Strategy;
-passport.use(new localStrategy(userModel.authenticate()));
+passport.use(new localStrategy(UserModel.authenticate()));
 
 exports.registerUser = async (req, res) => {
   try {
     const { username, email,isAdmin } = req.body;
-    const user = await userModel.findOne({ username });
+    const user = await UserModel.findOne({ username });
     if (user) {
       return res.status(400).json(new apiError(400, "User Already Exist"));
     }
-    const registerUser = await userModel.register(
-      new userModel({ username, email, isAdmin }),
+    const registerUser = await UserModel.register(
+      new UserModel({ username, email, isAdmin }),
       req.body.password
     );
 
