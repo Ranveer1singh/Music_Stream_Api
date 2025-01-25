@@ -1,4 +1,4 @@
-const { userModel } = require("../models/user.model");
+const { userModel } = require("../models/User.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const errorHandler = require("../utils/errorHandling");

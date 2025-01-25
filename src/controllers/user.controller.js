@@ -1,9 +1,9 @@
-const { userModel } = require("../models/user.model");
-const { songModel } = require("../models/song.model.js");
+const { userModel } = require("../models/User.model");
+const { songModel } = require("../models/Song.model");
 const apiError = require("../utils/apiError");
 const apiResponse = require("../utils/apiResponse");
 const {getGridFSBucket} = require("../config/gridFs");
-const { playList } = require("../models/playList.model");
+const { playList } = require("../models/PlayList.model");
 const { update } = require("node-id3");
 
 

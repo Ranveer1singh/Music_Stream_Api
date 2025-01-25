@@ -9,7 +9,7 @@ const db = require('./config/db');
 const authRoute = require("./routes/auth.route")
 const userRoute = require("./routes/user.route")
 const adminRoute = require("./routes/admin.route")
-const {userModel} = require('./models/user.model')
+const {userModel} = require('./models/User.model')
 // passport set up
 const passport = require("passport")
 const ExpressSession = require("express-session");
