@@ -5,15 +5,15 @@ const app = express();
 var morgan = require("morgan")
 var cors = require('cors')
 // mongo db connection 
-const db = require('./src/config/db');
-const authRoute = require("./src/routes/auth.route")
-const userRoute = require("./src/routes/user.route")
-const adminRoute = require("./src/routes/admin.route")
-const {userModel} = require('./src/models/user.model')
+const db = require('./config/db');
+const authRoute = require("./routes/auth.route")
+const userRoute = require("./routes/user.route")
+const adminRoute = require("./routes/admin.route")
+const {userModel} = require('./models/user.model')
 // passport set up
 const passport = require("passport")
 const ExpressSession = require("express-session");
-const errorHandler = require('./src/utils/errorHandling');
+const errorHandler = require('./utils/errorHandling');
 
 // connect to data base
 db.connect(process.env.MONGO_URL);
